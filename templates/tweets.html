@@ -1,0 +1,54 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<h1 class="display-3">Tweets</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    {% for field in form 
+        if field.widget.input_type !='hidden' %}
+    
+        <p>
+            {{field.label}} 
+            {{field}}
+    
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </p>
+    
+    {% endfor %}
+    
+    <button  class="btn btn-success" type="submit"> Tweets</button>
+    </form>
+   <div class="container container-fluid">
+        {% for tweet in tweet %}
+        
+        
+            <div class="card my-4">
+                
+                <div class="card-body">
+                    <h5 class="card-title text-info">
+                        {{tweet.user.username}}
+                        {% if session['user_id'] == tweet.user_id %}
+                    <form style="display: inline;" action="/tweets/{{tweet.id}}" method="POST">
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                    {% endif %}
+
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"> Date Goes here</h6>
+                    <p class="card-text">
+                        {{tweet.text}}
+                    </p>
+                    
+                    
+                </div>
+            </div>
+            
+       
+        {% endfor %}
+   
+    </div>
+{% endblock %}
